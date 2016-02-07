@@ -1,6 +1,10 @@
 class Mob:
     def __init__(self):
         pass
+    
+    def move(self, dir):
+        pass
+
 
 class Hero(Mob):
     HERO_SEXES = ('female', 'male')
@@ -19,7 +23,7 @@ class Hero(Mob):
             raise ValueError('Invalid sex: {}'.format(sex))
         
         role = role.lower()
-        if (role in HERO_ROLES:
+        if (role in HERO_ROLES):
             self.role = role
         else:
             raise ValueError('Invalid role: {}'.format(role))
@@ -36,8 +40,15 @@ class Hero(Mob):
         else:
             raise ValueError('Invalid alignment: {}'.format(alignment))
 
+        self.health = 100
+        self.max_health = 100
+        self.power = 10
+        self.max_power = 10
         self.level = 1
-        self.HP = 100
+        self.experience = 0
+        self.gold = 0
+        self.inv = []
+
 
 class Monster(Mob):
     def __init__(self):
