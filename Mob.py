@@ -1,13 +1,18 @@
-import Dungeon
+#import Dungeon
 
 class Mob:
     def __init__(self):
         pass
     
+    def set_dungeon_level(self, dLevel):
+        self.dLevel = dLevel
+    
     def set_location(self, tile):
+        if self.get_location():
+            self.get_location().remove_mob(self)
         self.location = tile
-        tile.mobs.append(self)
-        return
+        tile.add_mob(self)
+        return True
     
     def get_location(self):
         try:
@@ -15,8 +20,13 @@ class Mob:
         except AttributeError:
             return False
     
-    def move(self, dir):
-        pass
+    def move(self, direction):
+        currentLocation = self.get_location()
+        if currentLocation:
+            newLocation = self.dLevel.get_neighbor(self.get_location(), direction)
+            if newLocation:
+                return self.set_location(newLocation)
+        return False
 
 
 class Hero(Mob):
@@ -54,13 +64,13 @@ class Hero(Mob):
             raise ValueError('Invalid alignment: {}'.format(alignment))
 
         self.health = 100
-        self.max_health = 100
+        self.maxHealth = 100
         self.power = 10
-        self.max_power = 10
+        self.maxPower = 10
         self.level = 1
         self.experience = 0
         self.gold = 0
-        self.inv = []
+        self.inventory = []
 
 
 class Monster(Mob):
