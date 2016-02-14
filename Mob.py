@@ -1,6 +1,19 @@
+import Dungeon
+
 class Mob:
     def __init__(self):
         pass
+    
+    def set_location(self, tile):
+        self.location = tile
+        tile.mobs.append(self)
+        return
+    
+    def get_location(self):
+        try:
+            return self.location
+        except AttributeError:
+            return False
     
     def move(self, dir):
         pass
@@ -17,25 +30,25 @@ class Hero(Mob):
         self.name = name
         
         sex = sex.lower()
-        if (sex in HERO_SEXES):
+        if (sex in Hero.HERO_SEXES):
             self.sex = sex
         else:
             raise ValueError('Invalid sex: {}'.format(sex))
         
         role = role.lower()
-        if (role in HERO_ROLES):
+        if (role in Hero.HERO_ROLES):
             self.role = role
         else:
             raise ValueError('Invalid role: {}'.format(role))
         
         race = race.lower()
-        if (race in HERO_RACES):
+        if (race in Hero.HERO_RACES):
             self.race = race
         else:
             raise ValueError('Invalid race: {}'.format(race))
         
         alignment = alignment.lower()
-        if (alignment in HERO_ALIGNMENTS):
+        if (alignment in Hero.HERO_ALIGNMENTS):
             self.alignment = alignment
         else:
             raise ValueError('Invalid alignment: {}'.format(alignment))
