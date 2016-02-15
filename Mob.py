@@ -27,14 +27,19 @@ class Mob:
             if newLocation:
                 return self.set_location(newLocation)
         return False
+    
+    def pick_up(self, item):
+        self.get_location().remove_item(item)
+        self.inventory.append(item)
+        return True
 
 
 class Hero(Mob):
     HERO_SEXES = ('female', 'male')
     HERO_ROLES = ('archeologist', 'barbarian', 'caveperson', 'healer', 'knight', 'monk',
                   'priest', 'ranger', 'rogue', 'samurai', 'tourist', 'valkyrie', 'wizard')
-    HERO_RACES = ('human', 'elf', 'dwarf', 'gnome', 'orc')
-    HERO_ALIGNMENTS = ('lawful', 'neutral', 'chaotic')
+    HERO_RACES = ('dwarf', 'elf', 'gnome', 'human', 'orc')
+    HERO_ALIGNMENTS = ('chaotic', 'lawful', 'neutral')
     
     def __init__(self, name, sex, role, race, alignment):
         self.name = name

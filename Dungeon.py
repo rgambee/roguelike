@@ -12,6 +12,12 @@ class DungeonLevel:
         maxX = -1
         maxY = -1
     
+    def tile_at(self, x, y):
+        try:
+            return self.tileGrid[x][y]
+        except IndexError:
+            return False
+    
     def make_grid(self, numRows, numCols):
         '''Replaces current grid with an empty one'''
         self.tileGrid = []
@@ -41,9 +47,10 @@ class DungeonLevel:
         else:
             neighborY = tile.y
         
-        try:
-            return self.tileGrid[neighborX][neighborY]
-        except IndexError:
+        if (neighborX >= 0 and neighborX <= self.maxX
+                and neighborY >= 0 and neighborY <= self.maxY):
+            return self.tile_at(neighborX, neighborY)
+        else:
             return False
     
     
@@ -62,3 +69,12 @@ class Tile:
     def remove_mob(self, mob):
         self.mobs.remove(mob)
         return True
+    
+    def add_item(self, item):
+        self.items.append(item)
+        return True
+    
+    def remove_item(self, item):
+        self.items.remove(item)
+        return True
+ 
