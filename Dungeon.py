@@ -16,7 +16,8 @@ class DungeonLevel(object):
         try:
             return self.tileGrid[x][y]
         except IndexError:
-            return False
+            raise DungeonLevelError('Tile coordinate out of bounds: ({}, {})'.format(x, y))
+        return False
     
     def make_grid(self, numRows, numCols):
         '''Replaces current grid with an empty one'''
@@ -47,11 +48,16 @@ class DungeonLevel(object):
         else:
             neighborY = tile.y
         
-        if (neighborX >= 0 and neighborX <= self.maxX
-                and neighborY >= 0 and neighborY <= self.maxY):
+        try:
             return self.tile_at(neighborX, neighborY)
-        else:
-            return False
+        except DungeonLevelError:
+            raise DungeonLevelError('No valid neighbor in direction {}'.format(direction))
+        return False
+
+
+class DungeonLevelError(Exception):
+    def __init__(self, message):
+        super(DungeonLevelError, self).__init__(message)
     
     
 class Tile(object):
@@ -67,14 +73,27 @@ class Tile(object):
         return True
     
     def remove_mob(self, mob):
-        self.mobs.remove(mob)
-        return True
+        try:
+            self.mobs.remove(mob)
+            return True
+        except ValueError:
+            raise TileError('Tile does not contain mob {}'.format(mob))
+        return False
     
     def add_item(self, item):
         self.items.append(item)
         return True
     
     def remove_item(self, item):
-        self.items.remove(item)
-        return True
+        try:
+            self.items.remove(item)
+            return True
+        except ValueError:
+            raise TileError('Tile does not contain item {}'.format(item))
+        return False
+
+
+    class TileError(Exception):
+        def __init__(self, message):
+            super(DungeonLevelError, self).__init__(message)
  
