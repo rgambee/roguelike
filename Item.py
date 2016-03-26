@@ -8,11 +8,12 @@ class Item(object):
 
 class Weapon(Item):
     def __init__(self):
-        pass
-    
+    	super(Weapon, self).__init__()
+
 
 class Comestible(Item):
 	def __init__(self):
+		super(Comestible, self).__init__()
 		self.nutritionValue = 0
 		self.isRotten = False
 
@@ -22,6 +23,7 @@ class Comestible(Item):
 
 class FoodRation(Comestible):
 	def __init__(self):
+		super(FoodRation, self).__init__()
 		self.weight = 20
 		self.nutritionValue = 800
 
