@@ -1,4 +1,4 @@
-class Dungeon:
+class Dungeon(object):
     def __init__(self):
         self.dLevels = [] # bidirectional linked list
     
@@ -6,7 +6,7 @@ class Dungeon:
         self.dLevels.append(dLevel)
     
 
-class DungeonLevel:
+class DungeonLevel(object):
     def __init__(self):
         self.tileGrid = []
         maxX = -1
@@ -54,7 +54,7 @@ class DungeonLevel:
             return False
     
     
-class Tile:
+class Tile(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y

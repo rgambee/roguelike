@@ -1,11 +1,21 @@
-#import Dungeon
+import Dungeon
+import Item
 
-class Mob:
+class Mob(object):
     def __init__(self):
-        pass
+        self.health = 100
+        self.maxHealth = 100
+        self.nutrition = 900
+        self.level = 1
+        self.experience = 0
+        self.inventory = []
+        self.weightCarried = 0
+        self.attributes = {'strength':1, 'dexterity':1, 'constitution':1,
+                           'intelligence':1, 'wisdom':1, 'charisma':1}
     
     def set_dungeon_level(self, dLevel):
         self.dLevel = dLevel
+        return True
     
     def set_location(self, tile):
         if self.get_location():
