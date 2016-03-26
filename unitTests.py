@@ -24,18 +24,28 @@ def main():
     assert(testHero.get_location().x == 1 and testHero.get_location().y == 1)
     print 'Hero creation passed'
     
-    # place item at (1, 0) and have hero pick up
-    testItem = Item.Weapon()
-    testLevel.tile_at(1, 0).add_item(testItem)
+    # place food ration at (1, 0) and have hero pick up
+    testComestible = Item.FoodRation()
+    testLevel.tile_at(1, 0).add_item(testComestible)
     assert(len(testLevel.tile_at(1, 0).items) == 1)
     testHero.move('n')
     assert(testHero.get_location() == testLevel.tile_at(1, 0))
     assert(len(testLevel.tile_at(1, 1).mobs) == 0)
     assert(testLevel.tile_at(1, 0).mobs[0] == testHero)
-    testHero.pick_up(testItem)
+    testHero.pick_up(testComestible)
     assert(len(testLevel.tile_at(1, 0).items) == 0)
-    assert(testHero.inventory[0] == testItem)
+    assert(testHero.inventory[0] == testComestible)
+    assert(testHero.get_weight_carried() == testComestible.get_weight())
     print 'Hero movement and pickup passed'
+
+    # have hero eat food ration
+    heroNutritionBefore = testHero.get_nutrition()
+    testHero.eat(testComestible)
+    heroNutritionAfter = testHero.get_nutrition()
+    assert(len(testHero.inventory) == 0)
+    assert(heroNutritionAfter - heroNutritionBefore == testComestible.get_nutrition_value())
+    assert(testHero.get_weight_carried() == 0)
+    print 'Hero eating passed'
 
     return testDungeon
 

@@ -37,10 +37,54 @@ class Mob(object):
             if newLocation:
                 return self.set_location(newLocation)
         return False
+
+    def add_to_inventory(self, item):
+        self.inventory.append(item)
+        return True
+
+    def remove_from_inventory(self, item):
+        try:
+            self.inventory.remove(item)
+            return True
+        except:
+            return False
     
     def pick_up(self, item):
-        self.get_location().remove_item(item)
-        self.inventory.append(item)
+        if self.get_location().remove_item(item):
+            self.add_to_inventory(item)
+            self.update_weight_carried()
+            return True
+        return False
+
+    def eat(self, comestible):
+        if isinstance(comestible, Item.Comestible):
+            self.remove_from_inventory(comestible)
+            self.add_nutrition(comestible.get_nutrition_value())
+            self.update_weight_carried()
+            return True
+        return False
+
+    def get_nutrition(self):
+        return self.nutrition
+
+    def add_nutrition(self, amount):
+        '''amount can be negative (indicates loss of nutrition)'''
+        self.nutrition += amount
+        return True
+
+    def get_weight_carried(self):
+        return self.weightCarried
+
+    def update_weight_carried(self):
+        w = 0
+        for i in self.inventory:
+            w += i.get_weight()
+        self.weightCarried = w
+        return True
+
+    def add_experience(self, amount):
+        '''amount can be negative (indicates loss of experience)'''
+        self.experience += amount
         return True
 
 
@@ -52,6 +96,8 @@ class Hero(Mob):
     HERO_ALIGNMENTS = ('chaotic', 'lawful', 'neutral')
     
     def __init__(self, name, sex, role, race, alignment):
+        super(Hero, self).__init__()
+
         self.name = name
         
         sex = sex.lower()
@@ -78,14 +124,9 @@ class Hero(Mob):
         else:
             raise ValueError('Invalid alignment: {}'.format(alignment))
 
-        self.health = 100
-        self.maxHealth = 100
         self.power = 10
         self.maxPower = 10
-        self.level = 1
-        self.experience = 0
         self.gold = 0
-        self.inventory = []
 
 
 class Monster(Mob):
