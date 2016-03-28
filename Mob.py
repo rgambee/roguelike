@@ -131,4 +131,6 @@ class Hero(Mob):
 
 class Monster(Mob):
     def __init__(self):
-        pass
+        super(Monster, self).__init__()
+
+
