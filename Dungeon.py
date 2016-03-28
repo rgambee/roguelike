@@ -61,9 +61,16 @@ class DungeonLevelError(Exception):
     
     
 class Tile(object):
-    def __init__(self, x, y):
+    TILE_TYPES = ['floor', 'wall']
+    def __init__(self, x, y, tileType='floor', isPassable=True):
         self.x = x
         self.y = y
+
+        if tileType in self.TILE_TYPES:
+            self.tileType = tileType
+        else:
+            raise ValueError('Invalid tile type: {}'.format(tileType))
+        self.isPassable = isPassable
         
         self.items = []
         self.mobs = []
