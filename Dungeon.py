@@ -20,7 +20,7 @@ class DungeonLevel(object):
         return False
     
     def make_grid(self, numRows, numCols):
-        '''Replaces current grid with an empty one'''
+        '''Warning: overwrites current grid'''
         self.tileGrid = []
         self.maxX = numRows - 1
         self.maxY = numCols - 1
@@ -74,6 +74,21 @@ class Tile(object):
         
         self.items = []
         self.mobs = []
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_coords(self):
+        return (self.get_x, self.get_y)
+
+    def get_tile_type(self):
+        return self.tileType
+
+    def get_is_passable(self):
+        return self.isPassable
     
     def add_mob(self, mob):
         self.mobs.append(mob)
