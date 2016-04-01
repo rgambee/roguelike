@@ -34,8 +34,10 @@ class Mob(object):
         currentLocation = self.get_location()
         if currentLocation:
             newLocation = self.dLevel.get_neighbor(self.get_location(), direction)
-            if newLocation:
+            if newLocation.get_is_passible():
                 return self.set_location(newLocation)
+            else:
+                raise MobError('Tried to move to impassible tile at ({}, {})'.format(newLocation.get_coords))
         return False
 
     def add_to_inventory(self, item):
@@ -82,10 +84,18 @@ class Mob(object):
         self.weightCarried = w
         return True
 
+    def get_experience(self):
+        return self.experience
+    
     def add_experience(self, amount):
         '''amount can be negative (indicates loss of experience)'''
         self.experience += amount
         return True
+
+
+class MobError(Exception):
+    def __init__(self, message):
+        super(MobError, self).__init__(message)
 
 
 class Hero(Mob):
