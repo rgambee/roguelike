@@ -14,7 +14,12 @@ def main():
     assert(testLevel.tile_at(testLevel.maxX, testLevel.maxY))
     assert(not testLevel.tile_at(N, 0))
     assert(testLevel.tile_at(0, 0) == testLevel.get_neighbor(testLevel.tile_at(1, 1), 'nw'))
-    assert(not testLevel.get_neighbor(testLevel.tile_at(0, 0), 'n'))
+    try:
+        testLevel.get_neighbor(testLevel.tile_at(0, 0), 'n')    # should fail
+        assert(False)
+    except Dungeon.DungeonLevelError:
+        # failed as expected, so continue
+        pass
     print 'Dungeon creation passed'
     
     # create hero and place at (1, 1)
